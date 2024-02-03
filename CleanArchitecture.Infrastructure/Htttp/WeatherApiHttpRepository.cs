@@ -6,7 +6,7 @@ namespace CleanArchitecture.Infrastructure.Htttp
 {
     public interface IWeatherApiHttpRepository
     {
-        Task<List<WeatherApiDto>> GetData(string url, CancellationToken cancellationToken);
+        Task<WeatherApiDto> GetData(string url, CancellationToken cancellationToken);
     }
 
     public class WeatherApiHttpRepository : BaseHttpRepository<WeatherApiDto>, IWeatherApiHttpRepository
@@ -22,7 +22,7 @@ namespace CleanArchitecture.Infrastructure.Htttp
         {
         }
 
-        public virtual async Task<List<WeatherApiDto>> GetData(string url, CancellationToken cancellationToken)
+        public virtual async Task<WeatherApiDto> GetData(string url, CancellationToken cancellationToken)
         {
             string apiUrl = $"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}";
 
@@ -47,9 +47,9 @@ namespace CleanArchitecture.Infrastructure.Htttp
 
                     var responseText = await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    var data = JsonConvert.DeserializeObject<List<WeatherApiDto>>(responseText);
+                    var data = JsonConvert.DeserializeObject<WeatherApiDto>(responseText);
 
-                    return data ?? new List<WeatherApiDto>(0);
+                    return data ?? new WeatherApiDto();
                 }
                 else if (status_ == 400)
                 {
