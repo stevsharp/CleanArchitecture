@@ -1,15 +1,6 @@
 ﻿
-using Microsoft.EntityFrameworkCore;
-
 namespace CleanArchitecture.Infrastructure
 {
-
-    public interface IUnitOfWork<TId> : IDisposable
-    {
-        Task<int> Commit(CancellationToken cancellationToken);
-
-        Task Rollback();
-    }
     public class UnitOfWork<TId> : IUnitOfWork<TId>
     {
 
@@ -48,11 +39,10 @@ namespace CleanArchitecture.Infrastructure
             {
                 if (disposing)
                 {
-                    //dispose managed resources
                     _dbContext.Dispose();
                 }
             }
-            //dispose unmanaged resources
+
             disposed = true;
         }
     }
